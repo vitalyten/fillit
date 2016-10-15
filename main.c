@@ -6,7 +6,7 @@
 /*   By: vtenigin <vtenigin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 14:36:06 by vtenigin          #+#    #+#             */
-/*   Updated: 2016/10/14 22:13:53 by vtenigin         ###   ########.fr       */
+/*   Updated: 2016/10/15 14:35:50 by vtenigin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		showerr(0);
 
-	tet = NULL;
-	tetalloc(tet);
+	tet = tetalloc();
+	// printf("pos x = %d\n", tet->pos.x);
+	// printf("pos y = %d\n", tet->pos.y);
 	if ((fd = open(av[1], O_RDONLY)) == -1)
 	 	showerr(2);
 	readfile(fd, tet);
@@ -42,11 +43,18 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-void	tetalloc(t_et *tet)
+t_et	*tetalloc(void)
 {
+	t_et *tet;
+
 	if (!(tet = (t_et *)malloc(sizeof(t_et))))
 		showerr(1);
+	tet->pos.x = 0;
+	tet->pos.y = 0;
+	// printf("pos x = %d\n", tet->pos.x);
+	// printf("pos y = %d\n", tet->pos.y);
 	tet->next = NULL;
+	return (tet);
 }
 
 int	showerr(int code)
@@ -73,22 +81,22 @@ int	readfile(int fd, t_et *tet)
 	map = ft_strnew(21);
 
 
-	len = read(fd, map, 21);
-	 	map[21] = '\0';
-	settet(map, tet);
+	// len = read(fd, map, 21);
+	//  	map[21] = '\0';
+	// settet(map, tet);
 
-	// while ((len = read(fd, map, 21)) != 0)
-	// {
-	//  	map[len] = '\0';
-	// 	if (i)
-	// 	{
-	// 		tetalloc(tet->next);
-	// 		tet = tet->next;
-	// 	}
-	// 	settet(map, tet);
-	// 	tet->c = 'A' + i;
-	// 	i++;
-	// }
+	while ((len = read(fd, map, 21)) != 0)
+	{
+	 	map[len] = '\0';
+		if (i)
+		{
+			tet->next = tetalloc();
+			tet = tet->next;
+		}
+		settet(map, tet);
+		tet->c = 'A' + i;
+		i++;
+	}
 	return (0);
 }
 

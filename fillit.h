@@ -3,58 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   fillit.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtenigin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vtenigin <vtenigin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 13:50:30 by vtenigin          #+#    #+#             */
-/*   Updated: 2016/10/12 14:27:33 by vtenigin         ###   ########.fr       */
+/*   Updated: 2016/10/15 14:33:00 by vtenigin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
 
+#include <stdio.h> // norm
+
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
 
-typedef struct	s_tet
+typedef struct		s_dot
 {
-	int			x0;
-	int			y0;
-	int			x1;
-	int			y1;
-	int			x2;
-	int			y2;
-	int			x3;
-	int			y3;
-}				t_tet;
+	int				x;
+	int				y;
+}					t_dot;
 
-typedef struct	s_tetlst
+typedef struct		s_et
 {
-	t_tet		tet;
-	int			x;
-	int			y;
-	t_tetlst	*next;
-	char		c;
-}				t_tetlst;
+	t_dot			body[4];
+	t_dot			pos;
+	struct s_et		*next;
+	char			c;
+}					t_et;
 
-const t_tet		alltet[19] = {
-	{.x0 = 0, .y0 = 0, .x1 = 1, .y1 = 0, .x2 = 2, .y2 = 0, .x3 = 3, .y3 = 0},
-	{.x0 = 0, .y0 = 0, .x1 = 0, .y1 = 1, .x2 = 0, .y2 = 2, .x3 = 0, .y3 = 3},
-	{.x0 = 0, .y0 = 0, .x1 = 0, .y1 = 1, .x2 = 0, .y2 = 2, .x3 = 1, .y3 = 2},
-	{.x0 = 1, .y0 = 0, .x1 = 1, .y1 = 1, .x2 = 0, .y2 = 2, .x3 = 1, .y3 = 2},
-	{.x0 = 0, .y0 = 0, .x1 = 1, .y1 = 0, .x2 = 0, .y2 = 1, .x3 = 0, .y3 = 2},
-	{.x0 = 0, .y0 = 0, .x1 = 1, .y1 = 0, .x2 = 1, .y2 = 1, .x3 = 1, .y3 = 2},
-	{.x0 = 0, .y0 = 0, .x1 = 0, .y1 = 1, .x2 = 1, .y2 = 1, .x3 = 2, .y3 = 1},
-	{.x0 = 2, .y0 = 0, .x1 = 0, .y1 = 1, .x2 = 1, .y2 = 1, .x3 = 2, .y3 = 1},
-	{.x0 = 0, .y0 = 0, .x1 = 1, .y1 = 0, .x2 = 2, .y2 = 0, .x3 = 0, .y3 = 1},
-	{.x0 = 0, .y0 = 0, .x1 = 1, .y1 = 0, .x2 = 2, .y2 = 0, .x3 = 2, .y3 = 1},
-	{.x0 = 1, .y0 = 0, .x1 = 0, .y1 = 1, .x2 = 1, .y2 = 1, .x3 = 1, .y3 = 2},
-	{.x0 = 1, .y0 = 0, .x1 = 0, .y1 = 1, .x2 = 1, .y2 = 1, .x3 = 2, .y3 = 1},
-	{.x0 = 0, .y0 = 0, .x1 = 0, .y1 = 1, .x2 = 1, .y2 = 1, .x3 = 0, .y3 = 2},
-	{.x0 = 0, .y0 = 0, .x1 = 1, .y1 = 0, .x2 = 2, .y2 = 0, .x3 = 1, .y3 = 1},
-	{.x0 = 0, .y0 = 0, .x1 = 0, .y1 = 1, .x2 = 1, .y2 = 1, .x3 = 1, .y3 = 2},
-	{.x0 = 1, .y0 = 0, .x1 = 2, .y1 = 0, .x2 = 0, .y2 = 1, .x3 = 1, .y3 = 1},
-	{.x0 = 1, .y0 = 0, .x1 = 0, .y1 = 1, .x2 = 1, .y2 = 1, .x3 = 0, .y3 = 2},
-	{.x0 = 0, .y0 = 0, .x1 = 1, .y1 = 0, .x2 = 1, .y2 = 1, .x3 = 2, .y3 = 1},
-	{.x0 = 0, .y0 = 0, .x1 = 1, .y1 = 0, .x2 = 0, .y2 = 1, .x3 = 1, .y3 = 1}
+static const t_dot		g_alltet[19][4] = {
+	{{.x = 0, .y = 0}, {.x = 1, .y = 0}, {.x = 2, .y = 0}, {.x = 3, .y = 0}},
+	{{.x = 0, .y = 0}, {.x = 0, .y = 1}, {.x = 0, .y = 2}, {.x = 0, .y = 3}},
+	{{.x = 0, .y = 0}, {.x = 0, .y = 1}, {.x = 0, .y = 2}, {.x = 1, .y = 2}},
+	{{.x = 1, .y = 0}, {.x = 1, .y = 1}, {.x = 0, .y = 2}, {.x = 1, .y = 2}},
+	{{.x = 0, .y = 0}, {.x = 1, .y = 0}, {.x = 0, .y = 1}, {.x = 0, .y = 2}},
+	{{.x = 0, .y = 0}, {.x = 1, .y = 0}, {.x = 1, .y = 1}, {.x = 1, .y = 2}},
+	{{.x = 0, .y = 0}, {.x = 0, .y = 1}, {.x = 1, .y = 1}, {.x = 2, .y = 1}},
+	{{.x = 2, .y = 0}, {.x = 0, .y = 1}, {.x = 1, .y = 1}, {.x = 2, .y = 1}},
+	{{.x = 0, .y = 0}, {.x = 1, .y = 0}, {.x = 2, .y = 0}, {.x = 0, .y = 1}},
+	{{.x = 0, .y = 0}, {.x = 1, .y = 0}, {.x = 2, .y = 0}, {.x = 2, .y = 1}},
+	{{.x = 1, .y = 0}, {.x = 0, .y = 1}, {.x = 1, .y = 1}, {.x = 1, .y = 2}},
+	{{.x = 1, .y = 0}, {.x = 0, .y = 1}, {.x = 1, .y = 1}, {.x = 2, .y = 1}},
+	{{.x = 0, .y = 0}, {.x = 0, .y = 1}, {.x = 1, .y = 1}, {.x = 0, .y = 2}},
+	{{.x = 0, .y = 0}, {.x = 1, .y = 0}, {.x = 2, .y = 0}, {.x = 1, .y = 1}},
+	{{.x = 0, .y = 0}, {.x = 0, .y = 1}, {.x = 1, .y = 1}, {.x = 1, .y = 2}},
+	{{.x = 1, .y = 0}, {.x = 2, .y = 0}, {.x = 0, .y = 1}, {.x = 1, .y = 1}},
+	{{.x = 1, .y = 0}, {.x = 0, .y = 1}, {.x = 1, .y = 1}, {.x = 0, .y = 2}},
+	{{.x = 0, .y = 0}, {.x = 1, .y = 0}, {.x = 1, .y = 1}, {.x = 2, .y = 1}},
+	{{.x = 0, .y = 0}, {.x = 1, .y = 0}, {.x = 0, .y = 1}, {.x = 1, .y = 1}}
 };
+
+int		showerr(int code);
+t_et	*tetalloc(void);
+int		readfile(int fd, t_et *tet);
+void	settet(char *map, t_et *tet);
+void	setpos(t_et *tet, int i, int x, int y);
+void	tetalign(t_et *tet);
+void	tettest(t_et *tet);
+int		tetcmp(t_et *tet);
+
+char	*ft_strnew(size_t size);
+void	*ft_memalloc(size_t size);
+void	ft_bzero(void *s, size_t n);
+
+#endif
