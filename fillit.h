@@ -6,7 +6,7 @@
 /*   By: vtenigin <vtenigin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 13:50:30 by vtenigin          #+#    #+#             */
-/*   Updated: 2016/10/15 14:33:00 by vtenigin         ###   ########.fr       */
+/*   Updated: 2016/10/18 13:41:54 by vtenigin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,5 @@ void	setpos(t_et *tet, int i, int x, int y);
 void	tetalign(t_et *tet);
 void	tettest(t_et *tet);
 int		tetcmp(t_et *tet);
-
-char	*ft_strnew(size_t size);
-void	*ft_memalloc(size_t size);
-void	ft_bzero(void *s, size_t n);
 
 #endif

@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checkinput.c                                       :+:      :+:    :+:   */
+/*   tettest.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vtenigin <vtenigin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 16:25:41 by vtenigin          #+#    #+#             */
-/*   Updated: 2016/10/15 14:29:55 by vtenigin         ###   ########.fr       */
+/*   Updated: 2016/10/18 14:05:03 by vtenigin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+#include "libft.h"
 
 void	tetalign(t_et *tet)
 {
@@ -72,74 +73,3 @@ void	tettest(t_et *tet)
 		tet = tet->next;
 	}
 }
-
-void	settet(char *map, t_et *tet)
-{
-	int	x;
-	int	y;
-	int	i;
-
-	x = 0;
-	y = 0;
-	i = 0;
-
-
-	// while (*map)
-	// {
-	// 	if (*map == '#' && x < 4 && y < 4 && i < 4)
-	// 	{
-	// 		printf("# i = %d x = %d y = %d ", i, x, y);
-	// 		tet->body[i].x = x;
-	// 		tet->body[i].y = y;
-	// 		printf("pos x = %d\n", tet->body[i].x);
-	// 		printf("pos y = %d\n", tet->body[i].y);
-	// 		i++;
-	// 		x++;
-	// 	}
-	// 	else if (*map == '.' && x < 4 && y < 4)
-	// 	{
-	// 		printf(".");
-	// 		x++;
-	// 	}
-	// 	else if (*map == '\n' && x == 4 && y < 4)
-	// 	{
-	// 		printf("\n");
-	// 		y++;
-	// 		x = 0;
-	// 	}
-	// 	else if (*map == '\n' && x == 0 && y == 4)
-	// 	{
-	// 		printf("\n");
-	// 		y++;
-	// 	}
-	// 	else
-	// 		showerr(3);
-	// 	map++;
-	// }
-
-
-	while (*map)
-	{
-		if (*map == '#' && x < 4 && y < 4 && i < 4)
-			setpos(tet, i++, x++, y);
-		else if (*map == '.' && x < 4 && y < 4)
-			x++;
-		else if (*map == '\n' && x == 4 && y < 4)
-		{
-			y++;
-			x = 0;
-		}
-		else if (*map == '\n' && x == 0 && y == 4)
-			y++;
-		else
-			showerr(3);
-		map++;
-	}
-}
-
-void	setpos(t_et *tet, int i, int x, int y)
-{
-	tet->body[i].x = x;
-	tet->body[i].y = y;
-}
-

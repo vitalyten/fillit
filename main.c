@@ -6,12 +6,13 @@
 /*   By: vtenigin <vtenigin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/12 14:36:06 by vtenigin          #+#    #+#             */
-/*   Updated: 2016/10/15 14:35:50 by vtenigin         ###   ########.fr       */
+/*   Updated: 2016/10/18 14:03:31 by vtenigin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h> // norm
 #include "fillit.h"
+#include "libft.h"
 
 int	main(int ac, char **av)
 {
@@ -19,18 +20,16 @@ int	main(int ac, char **av)
 	int			fd;
 	// char			*map;
 	// int				min_sqr;
-	printf("%s test\n", av[1]); // norm
+
 	if (ac != 2)
 		showerr(0);
 
 	tet = tetalloc();
-	// printf("pos x = %d\n", tet->pos.x);
-	// printf("pos y = %d\n", tet->pos.y);
 	if ((fd = open(av[1], O_RDONLY)) == -1)
 	 	showerr(2);
 	readfile(fd, tet);
-	// tetalign(tet);
-	// tettest(tet);
+	tetalign(tet);
+	tettest(tet);
 
 
 	// if (!(min_sqr = ft_resolve_it(t, &map, 0)))
@@ -51,8 +50,6 @@ t_et	*tetalloc(void)
 		showerr(1);
 	tet->pos.x = 0;
 	tet->pos.y = 0;
-	// printf("pos x = %d\n", tet->pos.x);
-	// printf("pos y = %d\n", tet->pos.y);
 	tet->next = NULL;
 	return (tet);
 }
@@ -70,55 +67,4 @@ int	showerr(int code)
 	exit(-1);
 }
 
-int	readfile(int fd, t_et *tet)
-{
-	char		*map;
-	int			len;
-	int			i;
 
-
-	i = 0;
-	map = ft_strnew(21);
-
-
-	// len = read(fd, map, 21);
-	//  	map[21] = '\0';
-	// settet(map, tet);
-
-	while ((len = read(fd, map, 21)) != 0)
-	{
-	 	map[len] = '\0';
-		if (i)
-		{
-			tet->next = tetalloc();
-			tet = tet->next;
-		}
-		settet(map, tet);
-		tet->c = 'A' + i;
-		i++;
-	}
-	return (0);
-}
-
-char	*ft_strnew(size_t size)
-{
-	return ((char *)ft_memalloc(size + 1));
-}
-
-void	*ft_memalloc(size_t size)
-{
-	void *mem;
-
-	if ((mem = malloc(size)) && size)
-	{
-		ft_bzero(mem, size);
-		return (mem);
-	}
-	return (NULL);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	while (n-- > 0)
-		*(char *)s++ = 0;
-}
