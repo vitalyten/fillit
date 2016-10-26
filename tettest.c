@@ -67,8 +67,6 @@ void	tettest(t_et *tet)
 	{
 		if (tetcmp(tet) == -1)
 			showerr(3);
-		tet->pos.x = 0;
-		tet->pos.y = 0;
 		tet = tet->next;
 	}
 }

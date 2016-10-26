@@ -6,18 +6,29 @@
 /*   By: vtenigin <vtenigin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/23 22:03:12 by vtenigin          #+#    #+#             */
-/*   Updated: 2016/10/23 22:03:18 by vtenigin         ###   ########.fr       */
+/*   Updated: 2016/10/25 16:12:34 by vtenigin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int	getminsq(t_et *tet)
+void	tetclean(t_et *tet, char **map)
+{
+	int i;
+
+	i = 0;
+	while (i < 4)
+	{
+		map[tet->body[i].y + tet->pos.y][tet->body[i].x + tet->pos.x] = '.';
+		i++;
+	}
+}
+
+int		getminsq(t_et *tet)
 {
 	float x;
 	float n;
 	float y;
-
 
 	y = 1;
 	n = 0;
@@ -33,14 +44,14 @@ int	getminsq(t_et *tet)
 		x = (x + y) / 2;
 		y = n / x;
 	}
-	return ((int)(x + 0.5));
+	return ((int)(x + 0.99));
 }
 
-char **mapnew(int size)
+char	**mapnew(int size)
 {
-	char    **map;
-	int     i;
-	int     j;
+	char	**map;
+	int		i;
+	int		j;
 
 	i = 0;
 	if (!(map = (char **)malloc(sizeof(char *) * (size + 1))))
@@ -48,7 +59,7 @@ char **mapnew(int size)
 	map[size] = NULL;
 	while (i < size)
 	{
-		if(!(map[i] = (char *)malloc(sizeof(char) * (size + 1))))
+		if (!(map[i] = (char *)malloc(sizeof(char) * (size + 1))))
 			showerr(1);
 		j = 0;
 		while (j < size)
@@ -59,11 +70,10 @@ char **mapnew(int size)
 		map[i][j] = '\0';
 		i++;
 	}
-	printmap(map);
 	return (map);
 }
 
-void    freemap(char **map)
+void	freemap(char **map)
 {
 	int i;
 

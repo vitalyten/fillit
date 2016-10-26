@@ -6,44 +6,36 @@
 #    By: vtenigin <vtenigin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/10/18 13:34:21 by vtenigin          #+#    #+#              #
-#    Updated: 2016/10/20 20:54:29 by vtenigin         ###   ########.fr        #
+#    Updated: 2016/10/25 16:10:51 by vtenigin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -g
 
-LIBFT = libft.a
+FLAGS = -Wall -Wextra -Werror
+
 NAME = fillit
+
 SRC =	main.c \
 		tettest.c \
-		readfile.c
+		readfile.c \
+		mapnsq.c \
+		max.c \
+		tetsolve.c
 
-all: $(LIBFT) $(NAME)
+OBJ = $(SRC:.c=.o)
 
-$(LIBFT):
-	make -C libft/
+all: $(NAME)
 
 $(NAME):
-	@echo "building binary file"
-	@$(CC) $(FLAGS) $(SRC) -o $(NAME) -L libft -l ft
+	@$(CC) $(FLAGS) $(SRC) -o $(NAME)
 
 clean:
-	@make clean -C libft/
+	/bin/rm -f $(OBJ)
 
 fclean: clean
-	@echo "delete $(NAME)"
-	@rm -f $(NAME)
-	@make fclean -C libft/
+	/bin/rm -f $(NAME)
 
 re: fclean all
 
-
-###.
-###.
-#...
-#...
-
-1
-1+1
-0+1+1*4
+.PHONY: fclean all re clean
