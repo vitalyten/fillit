@@ -6,7 +6,7 @@
 /*   By: vtenigin <vtenigin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 14:00:45 by vtenigin          #+#    #+#             */
-/*   Updated: 2016/10/18 14:31:50 by vtenigin         ###   ########.fr       */
+/*   Updated: 2016/10/26 14:24:07 by vtenigin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int		readfile(int fd, t_et *tet)
 	map = ft_strnew(21);
 	while ((len = read(fd, map, 21)) != 0)
 	{
+		if (len < 20)
+			showerr(3);
 		map[len] = '\0';
 		if (i)
 		{

@@ -6,7 +6,7 @@
 /*   By: vtenigin <vtenigin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 14:34:19 by vtenigin          #+#    #+#             */
-/*   Updated: 2016/10/25 17:50:09 by vtenigin         ###   ########.fr       */
+/*   Updated: 2016/10/26 14:27:44 by vtenigin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	**tetsolve(t_et *tet)
 	while (solvenext(tet, minsq, map) != 1)
 	{
 		minsq++;
+		tet->next->pos.x = 0;
+		tet->next->pos.y = 0;
 		freemap(map);
 		map = mapnew(minsq);
 	}
@@ -40,8 +42,6 @@ int		solvenext(t_et *tet, int minsq, char **map)
 				return (-1);
 		if (solvenext(tet->next, minsq, map) == 1)
 			return (1);
-		tet->next->pos.x = 0;
-		tet->next->pos.y = 0;
 		tetclean(tet, map);
 		if (tetmove(minsq, tet) == -1)
 			return (-1);
@@ -80,13 +80,16 @@ int		tetwrite(t_et *t, char **m, int minsq)
 int		tetmove(int minsq, t_et *tet)
 {
 	tet->pos.x++;
-	if (tet->pos.y + maxy(tet) > minsq &&
-		tet->pos.x + maxx(tet) > minsq)
-		return (-1);
 	if (tet->pos.x == minsq)
 	{
 		tet->pos.y++;
 		tet->pos.x = 0;
+	}
+	if (tet->pos.y + maxy(tet) > minsq)
+	{
+		tet->pos.x = 0;
+		tet->pos.y = 0;
+		return (-1);
 	}
 	return (1);
 }
